@@ -17,7 +17,7 @@ const typeDefs = gql`
             price:Float,
             imageFileName:String,
             screen:String,
-            processor:Int,
+            processor:String,
             ram: Int,
             dateCreated:String,
             dateUpdated:String,

@@ -1,2 +1,3 @@
-yarn typeorm migration:create -n create_next_auth -d migrations
+yarn typeorm migration:create -n next_auth_tables
 yarn typeorm migration:run
+yarn typeorm entity:create -n Phone

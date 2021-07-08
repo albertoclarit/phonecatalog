@@ -1,2 +1,9 @@
 https://blog.echobind.com/up-and-running-nextjs-and-typeorm-2c4dff5d7250
 https://dev.to/tomburgs/nextjs-typeorm-entities-3f3o
+https://medium.com/@patrickjbradley/support-for-the-experimental-syntax-decorators-legacy-isn-t-currently-enabled-f69206bade39
+
+
+https://github.com/leonardfactory/babel-plugin-transform-typescript-metadata#readme
+https://stackoverflow.com/questions/65800495/getting-nextauth-js-user-session-in-apollo-server-context
+https://dev.to/unframework/getting-typeorm-to-work-with-next-js-and-typescript-1len
+https://github.com/typeorm/typeorm/issues/6241#issuecomment-643690383

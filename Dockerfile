@@ -5,7 +5,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile
-RUN yarn global add ts-node --frozen-lockfile
+RUN yarn global add ts-node
 # Rebuild the source code only when needed
 FROM node:alpine AS builder
 WORKDIR /app

@@ -1,0 +1,2 @@
+https://blog.echobind.com/up-and-running-nextjs-and-typeorm-2c4dff5d7250
+https://dev.to/tomburgs/nextjs-typeorm-entities-3f3o

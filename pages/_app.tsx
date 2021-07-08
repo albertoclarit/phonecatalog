@@ -6,6 +6,7 @@ import {CssBaseline} from "@material-ui/core";
 import { ModalProvider } from "react-modal-hook";
 import { theme } from '../lib/theme';
 import "reflect-metadata";
+import { Provider } from 'next-auth/client'
 
 function MyApp({ Component, pageProps }: AppProps) {
 
@@ -23,12 +24,14 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
       <React.Fragment>
-        <ThemeProvider theme={theme}>
+       <Provider session={pageProps.session}>
+         <ThemeProvider theme={theme}>
           <ModalProvider>
             <CssBaseline />
-            <Component {...pageProps} />
+               <Component {...pageProps} />
           </ModalProvider>
-        </ThemeProvider>
+         </ThemeProvider>
+        </Provider>
       </React.Fragment>
   );
 }

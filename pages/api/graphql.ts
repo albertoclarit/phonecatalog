@@ -1,5 +1,5 @@
 import {ApolloServer, AuthenticationError, gql} from 'apollo-server-micro'
-import {getAllPhones} from "./utils/dbOperations";
+import {getAllPhones,upsertPhone} from "./utils/dbOperations";
 import {getSession} from "next-auth/client";
 
 
@@ -24,17 +24,38 @@ const typeDefs = gql`
             version: Int
       }
 
+
+      type Mutation{
+         upsertPhone(
+            id:String,
+            name:String,
+            manufacturer:String,
+            description:String,
+            color:String,
+            price:Float,
+            imageFileName:String,
+            screen:String,
+            processor:String,
+            ram: Int
+         ):Phone
+           
+      }
     
     `;
 
 const resolvers = {
     Query: {
-        getAllPhones(parent, args, context,info){
-           return getAllPhones()
+        getAllPhones(parent, args, context, info) {
+            return getAllPhones()
         },
-    }
+    },
+    Mutation :{
 
-    ,
+        upsertPhone:   ( _, args) =>{
+
+            return upsertPhone(args)
+        }
+    }
 }
 
 export const config = {
@@ -55,6 +76,7 @@ const apolloServer = new ApolloServer({ typeDefs, resolvers,context: async ({ re
             "request.credentials": "include",
         },
     },
+    uploads:false
 })
 
 

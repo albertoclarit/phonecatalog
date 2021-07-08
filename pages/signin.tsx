@@ -1,7 +1,7 @@
 import {Button,Container, makeStyles} from "@material-ui/core";
 import styles from "../styles/Home.module.css";
 import Head from "next/head";
-import {csrfToken, getSession, providers, signOut,signIn} from "next-auth/client";
+import {csrfToken, getSession, providers, signOut, signIn, ClientSafeProvider} from "next-auth/client";
 import {useRouter} from "next/router";
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -22,12 +22,22 @@ const useStyles = makeStyles((theme) => ({
     }
 }));
 
-export default function Signin({ providers, csrfToken }) {
+
+type PropsRetType =  {
+    session:any | null,
+    providers: Record<
+        string,
+        ClientSafeProvider
+        > | null,
+    csrfToken : string | null
+}
+
+export default function Signin({ providers, csrfToken }:PropsRetType) {
     const classes = useStyles();
     const router = useRouter();
     return <div className={styles.container}>
         <Head>
-            <title>Create Next App</title>
+            <title>Phone Catalog</title>
             <meta name="description" content="Phone Catalog" />
             <link rel="icon" href="/favicon.ico"/>
         </Head>
@@ -59,7 +69,8 @@ export default function Signin({ providers, csrfToken }) {
 }
 
 
-Signin.getInitialProps = async (context) => {
+
+Signin.getInitialProps = async (context): Promise<PropsRetType>   => {
     const { req, res } = context;
     const session = await getSession({ req });
 

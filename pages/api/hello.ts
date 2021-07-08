@@ -1,7 +1,5 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from 'next'
-import {getDbConnection} from './utils/getDbConnection'
-import {PhoneEntity} from "../../entities/Phone.entity";
 import {getSession} from "next-auth/client";
 
 type Data = {

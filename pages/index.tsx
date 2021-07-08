@@ -10,6 +10,9 @@ import ImageListItem from '@material-ui/core/ImageListItem';
 import ImageListItemBar from '@material-ui/core/ImageListItemBar';
 import ListSubheader from '@material-ui/core/ListSubheader';
 import InfoIcon from '@material-ui/icons/Info';
+import AddEditPhone from "../components/AddEditPhone";
+import  dialogHook from '../lib/dialogHook'
+
 const useStyles = makeStyles((theme) => ({
     root: {
         flex: 1,
@@ -22,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     imageList: {
-        width: 600,
+        width: 550,
         height: 600,
     },
     icon: {
@@ -35,7 +38,9 @@ const useStyles = makeStyles((theme) => ({
 export default function Home() {
     const [ session, loading ] = useSession()
     const classes = useStyles();
-    const { data, error } = useSWR(` 
+    const showAddEditPhone = dialogHook(AddEditPhone);
+
+    const { data, error,mutate  } = useSWR(` 
       query {
                 getAllPhones{
                 id 
@@ -47,15 +52,15 @@ export default function Home() {
                 imageFileName 
                 screen 
                 processor 
+                ram
         }
   }
        
     `, fetcher)
-  let tileData = []
   return (
     <div className={styles.container}>
       <Head>
-        <title>Create Next App</title>
+        <title>Phone Catalog</title>
         <meta name="description" content="Phone Catalog" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -66,23 +71,7 @@ export default function Home() {
                   Phone Catalog
               </h1>
 
-              <ImageList rowHeight={550} className={classes.imageList}>
 
-                  {(data?.getAllPhones || []).map((item) => (
-                      <ImageListItem key={item.id}>
-                          <img src={item.imageFileName} alt={item.name} />
-                          <ImageListItemBar
-                              title={item.title}
-                              subtitle={<span>by: {item.manufacturer}</span>}
-                              actionIcon={
-                                  <IconButton aria-label={`${item.description}`} className={classes.icon}>
-                                      <InfoIcon />
-                                  </IconButton>
-                              }
-                          />
-                      </ImageListItem>
-                  ))}
-              </ImageList>
 
 
               {!session && <>
@@ -90,11 +79,43 @@ export default function Home() {
               </>}
 
               {session && <>
+                  <ImageList rowHeight={450} className={classes.imageList}>
+
+                      {(data?.getAllPhones || []).map((item) => (
+                          <ImageListItem key={item.id}>
+                              <Image
+                                  src={item.imageFileName || "https://temp.media/?height=600&width=350&text=Phone_Pic&category=technology&color="}
+                                  alt={item.name}
+                                  layout={"fill"}/>
+                              <ImageListItemBar
+                                  title={item.name}
+                                  subtitle={<span>by: {item.manufacturer}</span>}
+                                  actionIcon={
+                                      <IconButton aria-label={`${item.description}`} className={classes.icon} onClick={()=>{
+                                          showAddEditPhone({entity:item},(result)=>{
+                                              if(result)
+                                                  mutate()
+                                          })
+                                      }
+                                      }>
+                                          <InfoIcon />
+                                      </IconButton>
+                                  }
+                              />
+                          </ImageListItem>
+                      ))}
+                  </ImageList>
                   <br/>
                   <div style={{textAlign:'center', fontSize:'larger'}}>
                       Signed in as {session?.user?.email}
                   </div>
                   <br/>
+                  <Button color={"secondary"} variant={"contained"} onClick={() =>
+                      showAddEditPhone({entity:{}},(result)=>{
+                          if(result)
+                              mutate()
+                      })
+                  }>Add Phone</Button>
                   <Button color={"primary"} variant={"contained"} onClick={() => signOut()}>Sign out</Button>
               </>}
           </Container>

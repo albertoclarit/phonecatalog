@@ -33,3 +33,5 @@ yarn-error.log*
 # vercel
 .vercel
 /.idea/
+/public/uploads/
+/hisd3-93cc4-bf29d5c574c5.json

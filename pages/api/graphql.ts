@@ -4,6 +4,8 @@ import {getSession} from "next-auth/client";
 
 
 const typeDefs = gql`
+
+ 
     type Query {
     getAllPhones: [Phone]
     }
@@ -36,7 +38,7 @@ const typeDefs = gql`
             imageFileName:String,
             screen:String,
             processor:String,
-            ram: Int
+            ram: Int 
          ):Phone,
          deletePhone(
             id:String 
@@ -55,6 +57,7 @@ const resolvers = {
 
         upsertPhone:   ( _, args) =>{
 
+            console.log(args)
             return upsertPhone(args)
         },
 

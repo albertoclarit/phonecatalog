@@ -5,6 +5,7 @@ import MyForm from '../lib/forms/myForm'
 import FormInput from '../lib/forms/formInput'
 import {fetcher} from "../pages/api/utils/fetcher";
 import {useConfirmationAlert} from "../lib/dialogHook";
+import {useState} from "react";
 const useStyles = makeStyles({
     dialog: {
         '& .MuiPaper-rounded': {
@@ -45,12 +46,17 @@ const useStyles = makeStyles({
 export default function AddEditPhone({entity,hide}){
     const classes = useStyles();
     const showAlertConfirm = useConfirmationAlert();
+
+    const [fileUpload,setFileUpload] = useState(null);
     const methods = useForm({
         defaultValues: {
             id: entity?.id || undefined
         },
     });
     const onSubmit = async (formData)=>{
+
+
+       // console.log(fileUpload)
 
         let response = await fetcher(`
       mutation (
@@ -64,7 +70,6 @@ export default function AddEditPhone({entity,hide}){
             $screen:String,
             $processor:String,
             $ram: Int
-            
             ) {
         upsertPhone(
             id:$id,
@@ -87,10 +92,49 @@ export default function AddEditPhone({entity,hide}){
                 ram: parseInt(formData.ram)
             }
         );
+
+
+        if(fileUpload){
+            const photoForm = new FormData();
+            photoForm.append('id', entity.id || '');
+            photoForm.append('file', fileUpload)
+            let photoUploadResponse = await fetch(  '/api/uploadPhoto', {
+                method: 'POST',
+                credentials: 'include',
+                body: photoForm,
+            });
+        }
+
+
+
         hide(true);
     }
 
+    const handlePhotoUploadPreview = (event) => {
+        if (event.target.files && event.target.files[0]) {
+            let reader = new FileReader();
+            let file = event.target.files[0];
 
+            if (!file.name.match(/.(jpg|jpeg|png)$/i)) {
+                showAlertConfirm({
+                    title: 'Invalid File Upload',
+                    message: 'Please upload an image file (jpg, jpeg, png)',
+                    confirmButtonTitle: 'OK'
+                });
+            } else if (file.size > 1000000) {
+                showAlertConfirm({
+                    title: 'Invalid Image Upload',
+                    message: 'The image uploaded is too large. Please upload an image with size less than 1 MB',
+                    confirmButtonTitle: 'OK'
+                });
+            } else {
+                reader.onloadend = () => {
+                    setFileUpload(file);
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+    };
     return <Dialog   fullWidth={true} open onClose={() => hide(false)} >
             <DialogTitle className={classes.dialogTitle}>
                 {entity.id ? "Edit" : "Add"} Phone Info
@@ -220,6 +264,14 @@ export default function AddEditPhone({entity,hide}){
                                 }}
                             />
 
+                            Photo Upload:<br/>
+                            <input
+                                id='phonePhoto'
+                                name='phonePhoto'
+                                type='file'
+                                accept='image/*'
+                                onChange={(e) => handlePhotoUploadPreview(e)}
+                            />
                         </Grid>
                     </Grid>
                     <button id={"hiddenbutton"} style={{ visibility: 'hidden' }} type={"submit"}>Submit</button>

@@ -36,3 +36,4 @@ yarn-error.log*
 /public/uploads/
 /hisd3-93cc4-bf29d5c574c5.json
 tsconfig.json
+/README-ForDelete.md

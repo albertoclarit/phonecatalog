@@ -28,3 +28,12 @@ export async function getAllPhones(): Promise<PhoneEntity[]>{
          }
      })
 }
+export async function deletePhoneEntity(id:string) : Promise<boolean>{
+    await prepareConnection()
+    let  connection  = await getConnection()
+    let phoneRepository = connection.getRepository(PhoneEntity)
+    let entity = await phoneRepository.findOne(id)
+     await phoneRepository.remove(entity)
+
+    return true
+}

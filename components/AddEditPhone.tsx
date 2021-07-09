@@ -241,6 +241,25 @@ export default function AddEditPhone({entity,hide}){
                                     confirmButtonTitle: "DELETE"
                                 }, async (result) => {
 
+                                    if(result){
+                                        let response = await fetcher(`
+                                      mutation (
+                                            $id:String
+                                            ) {
+                                        deletePhone(
+                                            id:$id 
+                                            )
+                                      }
+      `,
+                                            {
+                                                 id:entity.id
+                                            }
+                                        );
+
+                                        hide(true)
+                                    }
+
+
 
                                 })
 

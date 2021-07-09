@@ -1,5 +1,5 @@
 import {ApolloServer, AuthenticationError, gql} from 'apollo-server-micro'
-import {getAllPhones,upsertPhone} from "./utils/dbOperations";
+import {getAllPhones,upsertPhone,deletePhoneEntity} from "./utils/dbOperations";
 import {getSession} from "next-auth/client";
 
 
@@ -37,8 +37,10 @@ const typeDefs = gql`
             screen:String,
             processor:String,
             ram: Int
-         ):Phone
-           
+         ):Phone,
+         deletePhone(
+            id:String 
+          ):Boolean
       }
     
     `;
@@ -54,6 +56,10 @@ const resolvers = {
         upsertPhone:   ( _, args) =>{
 
             return upsertPhone(args)
+        },
+
+        deletePhone:   ( _, args) =>{
+          return   deletePhoneEntity(args.id)
         }
     }
 }

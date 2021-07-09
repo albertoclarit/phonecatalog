@@ -1,0 +1,35 @@
+version: '2'
+services:
+  postgres:  # https://hub.docker.com/_/postgres
+    image: postgres
+    restart: always
+    volumes:
+      - phonecatalog_vol:/var/lib/postgresql/data
+    healthcheck:
+      test: [ "CMD-SHELL", "pg_isready -U phonecatalog -d phonecatalog" ]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    environment:
+      POSTGRES_PASSWORD: 3ZPP83cf
+      POSTGRES_DB:  phonecatalog
+      POSTGRES_USER: phonecatalog
+
+
+  adminer:
+      image: adminer
+      restart: always
+      ports:
+        - 9090:8080
+
+  web:
+    image: albertoclarit/phone_catalog:0.0.10
+    restart: always
+    ports:
+      - 3000:3000
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  phonecatalog_vol:

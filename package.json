@@ -7,10 +7,12 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "run-ts-node": "DOTENV_CONFIG_PATH=./.env.local ts-node  -P ./tsconfig.yarn.json  -r dotenv/config ",
-    "typeorm": "yarn run-ts-node ./node_modules/typeorm/cli.js",
-    "devmig": "yarn typeorm migration:run && yarn dev",
-    "prodmig": "yarn typeorm migration:run && yarn start"
+    "run-ts-node-local": "DOTENV_CONFIG_PATH=./.env.local ts-node  -P ./tsconfig.yarn.json  -r dotenv/config ",
+    "run-ts-node-prod": "DOTENV_CONFIG_PATH=./.env.production ts-node  -P ./tsconfig.yarn.json  -r dotenv/config ",
+    "typeorm-local": "yarn run-ts-node-local ./node_modules/typeorm/cli.js",
+    "typeorm-prod": "yarn run-ts-node-prod ./node_modules/typeorm/cli.js",
+    "devmig": "yarn typeorm-local migration:run && yarn dev",
+    "prodmig": "yarn typeorm-prod migration:run && yarn start"
   },
   "dependencies": {
     "@emotion/react": "^11.4.0",

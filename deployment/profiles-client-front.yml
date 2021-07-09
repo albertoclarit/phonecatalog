@@ -1,0 +1,96 @@
+kind: Service
+apiVersion: v1
+metadata:
+  name: postgres
+  namespace: phonecatalog
+spec:
+  type: ExternalName
+  externalName: postgres.slackbot.svc.cluster.local
+  ports:
+    - port: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: phone-catalog-app
+  namespace: phonecatalog
+  labels:
+    app: phone-catalog-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: phone-catalog-app
+  template:
+    metadata:
+      labels:
+        app: phone-catalog-app
+    spec:
+      imagePullSecrets:
+        - name: docker-ace
+      containers:
+        - name:  phone-catalog-app
+          image: albertoclarit/phone_catalog:0.0.10
+          env:
+            - name: DB_USER
+              value: "lanexuser"
+            - name: DB_NAME
+              value: "phonecatalog"
+            - name: DB_PASS
+              value: "zA43XBgu"
+            - name: DB_HOST
+                value: "postgres"
+            - name: DB_PORT
+                value: "5432"
+            - name: DATABASE_URL
+                value: "postgres://lanexuser:zA43XBgu@postgres:5432/phonecatalog"
+            - name: NEXTAUTH_URL
+                value: "https://phonecatalog.52.74.136.51.nip.io"
+          ports:
+            - containerPort: 3000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: phone-catalog-app
+  namespace: phonecatalog
+  labels:
+    app: phone-catalog-app
+spec:
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 3000
+      name: phone-catalog-app
+  selector:
+    app: phone-catalog-app
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: phonecatalog-api-ingress
+  namespace: phonecatalog
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    nginx.ingress.kubernetes.io/proxy-body-size: "50m"
+    nginx.org/client-max-body-size: "50m"
+    nginx.ingress.kubernetes.io/proxy-connect-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-send-timeout: "3600"
+    nginx.ingress.kubernetes.io/proxy-read-timeout: "3600"
+#    nginx.ingress.kubernetes.io/rewrite-target: /$1  #https://kubernetes.github.io/ingress-nginx/examples/rewrite/
+spec:
+  tls:
+    - hosts:
+        - phonecatalog.52.74.136.51.nip.io
+      secretName: phonecatalog-api-tls-secret
+  rules:
+    - host: phonecatalog.52.74.136.51.nip.io
+      http:
+        paths:
+          - pathType: Prefix
+            path: "/"
+            backend:
+              service:
+                name: phone-catalog-app
+                port:
+                  number: 3000

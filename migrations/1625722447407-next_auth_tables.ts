@@ -4,7 +4,11 @@ export class nextAuthTables1625722447407 implements MigrationInterface {
 
     public async up(queryRunner: QueryRunner): Promise<void> {
         await queryRunner.query(`
-        CREATE TABLE accounts
+
+ 
+ CREATE EXTENSION  IF NOT EXISTS  "uuid-ossp";
+ 
+  CREATE TABLE accounts
   (
     id                   SERIAL,
     compound_id          VARCHAR(255) NOT NULL,

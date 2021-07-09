@@ -8,6 +8,10 @@ See [https://phonecatalog.52.74.136.51.nip.io/](https://phonecatalog.52.74.136.5
 ## Software Libraries and Tools
 ### NextJS 
 [NextJS](https://nextjs.org/) is a React Framework that helps developer became more  productive. 
+It is a complete suite of developer tools where you can develop frontend and backend running within a single NodeJS enviroment.
+
+I usually separate my FE and BE but for this poc, I integrate GraphQL services from inside NextJs App.
+You can even integrate ExpressJS and etc.
 ### TypeORM
 An Object-Relational Mapping for NodeJS
 ## Standards

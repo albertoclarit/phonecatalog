@@ -24,6 +24,7 @@ RUN addgroup -g 1001 -S nodejs
 RUN adduser -S nextjs -u 1001
 
 # You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/hisd3-93cc4-bf29d5c574c5.json ./
 COPY --from=builder /app/tsconfig.json ./
 COPY --from=builder /app/tsconfig.yarn.json ./
 COPY --from=builder /app/ormconfig.js ./

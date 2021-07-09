@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name:  phone-catalog-app
-          image: albertoclarit/phone_catalog:0.0.12
+          image: albertoclarit/phone_catalog:0.0.13
           ports:
             - containerPort: 3000
           env:

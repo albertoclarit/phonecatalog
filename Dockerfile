@@ -38,6 +38,8 @@ RUN npm install -g ts-node
 USER nextjs
 
 EXPOSE 3000
+RUN mkdir -p /home/nextjs/uploads
+RUN chmod -R 755 /home/nextjs/uploads
 RUN mkdir -p /home/nextjs/.cache/yarn
 RUN chmod -R 755 /home/nextjs/.cache/yarn
 # Next.js collects completely anonymous telemetry data about general usage.

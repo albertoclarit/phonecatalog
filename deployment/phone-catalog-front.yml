@@ -28,7 +28,7 @@ spec:
     spec:
       containers:
         - name:  phone-catalog-app
-          image: albertoclarit/phone_catalog:0.0.10
+          image: albertoclarit/phone_catalog:0.0.12
           ports:
             - containerPort: 3000
           env:
@@ -46,6 +46,8 @@ spec:
               value: "postgres://lanexuser:zA43XBgu@postgres:5432/phonecatalog"
             - name: NEXTAUTH_URL
               value: "https://phonecatalog.52.74.136.51.nip.io"
+            - name: UPLOAD_DIR
+              value: "/home/nextjs/uploads"
 ---
 apiVersion: v1
 kind: Service

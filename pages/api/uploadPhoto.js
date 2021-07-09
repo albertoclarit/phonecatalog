@@ -8,7 +8,7 @@ const {Storage} = require('@google-cloud/storage');
 
 const upload = multer({
     storage: multer.diskStorage({
-        destination: './public/uploads',
+        destination: process.env.UPLOAD_DIR,
         filename: (req, file, cb) => cb(null, file.originalname),
     }),
 });
@@ -33,7 +33,7 @@ apiRoute.post(  async (req, res) => {
 
     const storage = new Storage();
     const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET);
-    const fullPath = `./public/uploads/${filename}` ;
+    const fullPath = `${process.env.UPLOAD_DIR}/${filename}` ;
 
     let result = await   bucket.upload(fullPath,{
         destination: `${filename}`,

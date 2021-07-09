@@ -3,8 +3,7 @@ yarn typeorm migration:run
 yarn typeorm entity:create -n Phone
 
 
-docker build  -t albertoclarit/phone_catalog:0.0.8 .
-docker push  albertoclarit/phone_catalog:0.0.8
-
+docker build  -t albertoclarit/phone_catalog:0.0.12 .
+docker push  albertoclarit/phone_catalog:0.0.12
 
  docker volume create phonecatalog_vol

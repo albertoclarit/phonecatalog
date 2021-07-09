@@ -1,7 +1,7 @@
 # Phone Catalog  
 *Node JS Exercise and Proof of Concept*
 
-See [https://phonecatalog.52.74.136.51.nip.io/](https://phonecatalog.52.74.136.51.nip.io//)
+See [https://phonecatalog.52.74.136.51.nip.io/](https://phonecatalog.52.74.136.51.nip.io/)
 
 ![Phone Catalog!](screenshot.png?raw=true "Phone Catalog")
 
@@ -37,5 +37,5 @@ Ingress are automatically secured by
 [Lets Encrypt](https://letsencrypt.org/)
 
 
-See [https://phonecatalog.52.74.136.51.nip.io/](https://phonecatalog.52.74.136.51.nip.io//)
+See [https://phonecatalog.52.74.136.51.nip.io/](https://phonecatalog.52.74.136.51.nip.io/)
 

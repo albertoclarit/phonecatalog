@@ -26,11 +26,11 @@ spec:
       labels:
         app: phone-catalog-app
     spec:
-      imagePullSecrets:
-        - name: docker-ace
       containers:
         - name:  phone-catalog-app
           image: albertoclarit/phone_catalog:0.0.10
+          ports:
+            - containerPort: 3000
           env:
             - name: DB_USER
               value: "lanexuser"
@@ -39,15 +39,13 @@ spec:
             - name: DB_PASS
               value: "zA43XBgu"
             - name: DB_HOST
-                value: "postgres"
+              value: "postgres"
             - name: DB_PORT
-                value: "5432"
+              value: "5432"
             - name: DATABASE_URL
-                value: "postgres://lanexuser:zA43XBgu@postgres:5432/phonecatalog"
+              value: "postgres://lanexuser:zA43XBgu@postgres:5432/phonecatalog"
             - name: NEXTAUTH_URL
-                value: "https://phonecatalog.52.74.136.51.nip.io"
-          ports:
-            - containerPort: 3000
+              value: "https://phonecatalog.52.74.136.51.nip.io"
 ---
 apiVersion: v1
 kind: Service
